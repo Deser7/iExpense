@@ -7,24 +7,13 @@
 
 import SwiftUI
 
-struct ExpenseItem {
-    let name: String
-    let type: String
-    let amount: Double
-}
-
-@Observable
-final class Expenses {
-    var items: [ExpenseItem] = []
-}
-
 struct ContentView: View {
     @State private var expenses = Expenses()
     
     var body: some View {
         NavigationStack {
             List {
-                ForEach(expenses.items, id: \.name) { item in
+                ForEach(expenses.items) { item in
                     Text(item.name)
                 }
                 .onDelete(perform: removeItems)
