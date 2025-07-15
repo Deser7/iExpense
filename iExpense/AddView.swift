@@ -8,8 +8,8 @@
 import SwiftUI
 
 enum ExpenseType: String, CaseIterable {
-    case business = "Business"
-    case personal = "Personal"
+    case business = "Бизнес"
+    case personal = "Личные"
 }
 
 struct AddView: View {
@@ -26,21 +26,28 @@ struct AddView: View {
     var body: some View {
         NavigationStack {
             Form {
-                TextField("Name", text: $name)
+                TextField("Название", text: $name)
                 
-                Picker("Type", selection: $type) {
+                Picker("Тип", selection: $type) {
                     ForEach(types, id: \.self) { type in
                         Text(type.rawValue)
                     }
                 }
                 
-                TextField("Amount", value: $amount, format: .currency(code: "USD"))
+                TextField("Количество",
+                          value: $amount,
+                          format: .currency(code: expenses.currencyCode)
+                )
                     .keyboardType(.decimalPad)
             }
-            .navigationTitle("Add new expense")
+            .navigationTitle("Новый расход")
             .toolbar {
-                Button("Save") {
-                    let item = ExpenseItem(name: name, type: type.rawValue, amount: amount)
+                Button("Сохранить") {
+                    let item = ExpenseItem(
+                        name: name,
+                        type: type.rawValue,
+                        amount: amount
+                    )
                     expenses.items.append(item)
                     dismiss()
                 }

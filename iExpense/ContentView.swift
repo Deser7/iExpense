@@ -23,14 +23,15 @@ struct ContentView: View {
                         }
                         Spacer()
                         
-                        Text(item.amount, format: .currency(code: "USD"))
+                        Text(item.amount, format: .currency(code: expenses.currencyCode))
+                            .foregroundStyle(setExpensesStyle(item.amount))
                     }
                 }
                 .onDelete(perform: removeItems)
             }
-            .navigationTitle("iExpense")
+            .navigationTitle("Мои расходы")
             .toolbar {
-                Button("Add Expense", systemImage: "plus") {
+                Button("Добавить расход", systemImage: "plus") {
                     showingAddExpense = true
                 }
             }
@@ -42,6 +43,14 @@ struct ContentView: View {
     
     func removeItems(at offsets: IndexSet) {
         expenses.items.remove(atOffsets: offsets)
+    }
+    
+    func setExpensesStyle(_ number: Double) -> Color {
+        switch number {
+        case 0..<1000: .green
+        case 1000..<10000: .primary
+        default: .red
+        }
     }
 }
 

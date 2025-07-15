@@ -10,6 +10,8 @@ import Foundation
 
 @Observable
 final class Expenses {
+    let currencyCode = Locale.current.currency?.identifier ?? "USD"
+    
     var items: [ExpenseItem] = [] {
         didSet {
             if let encoded = try? JSONEncoder().encode(items) {
