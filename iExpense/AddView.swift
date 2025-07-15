@@ -7,14 +7,21 @@
 
 import SwiftUI
 
+enum ExpenseType: String, CaseIterable {
+    case business = "Business"
+    case personal = "Personal"
+}
+
 struct AddView: View {
+    @Environment(\.dismiss) var dismiss
+    
     @State private var name = ""
-    @State private var type = "Personal"
+    @State private var type: ExpenseType = .personal
     @State private var amount = 0.0
     
     var expenses: Expenses
     
-    let types = ["Business", "Personal"]
+    let types = ExpenseType.allCases
     
     var body: some View {
         NavigationStack {
@@ -22,8 +29,8 @@ struct AddView: View {
                 TextField("Name", text: $name)
                 
                 Picker("Type", selection: $type) {
-                    ForEach(types, id: \.self) {
-                        Text($0)
+                    ForEach(types, id: \.self) { type in
+                        Text(type.rawValue)
                     }
                 }
                 
@@ -33,8 +40,9 @@ struct AddView: View {
             .navigationTitle("Add new expense")
             .toolbar {
                 Button("Save") {
-                    let item = ExpenseItem(name: name, type: type, amount: amount)
+                    let item = ExpenseItem(name: name, type: type.rawValue, amount: amount)
                     expenses.items.append(item)
+                    dismiss()
                 }
             }
         }
