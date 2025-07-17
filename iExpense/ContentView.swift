@@ -14,22 +14,24 @@ struct ContentView: View {
     
     var body: some View {
         NavigationStack {
-            List {
-                ForEach(expenses.items) { item in
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Text(item.name)
-                                .font(.headline)
-                        }
-                        Spacer()
-                        
-                        Text(item.amount, format: .currency(code: expenses.currencyCode))
-                            .foregroundStyle(setExpensesStyle(item.amount))
-                    }
+            TabView {
+                Tab(ExpenseType.business.rawValue, systemImage: "briefcase.fill") {
+                    ExpensesListView(
+                        title: ExpenseType.business.rawValue,
+                        expenses: expenses.items.filter { $0.type == .business },
+                        onDelete: removeItems
+                    )
                 }
-                .onDelete(perform: removeItems)
+                
+                
+                Tab(ExpenseType.personal.rawValue, systemImage: "person.fill") {
+                    ExpensesListView(
+                        title: ExpenseType.personal.rawValue,
+                        expenses: expenses.items.filter { $0.type == .personal},
+                        onDelete: removeItems
+                    )
+                }
             }
-            .navigationTitle("Мои расходы")
             .toolbar {
                 Button("Добавить расход", systemImage: "plus") {
                     showingAddExpense = true
@@ -43,14 +45,6 @@ struct ContentView: View {
     
     func removeItems(at offsets: IndexSet) {
         expenses.items.remove(atOffsets: offsets)
-    }
-    
-    func setExpensesStyle(_ number: Double) -> Color {
-        switch number {
-        case 0..<1000: .green
-        case 1000..<10000: .primary
-        default: .red
-        }
     }
 }
 

@@ -7,11 +7,6 @@
 
 import SwiftUI
 
-enum ExpenseType: String, CaseIterable {
-    case business = "Бизнес"
-    case personal = "Личные"
-}
-
 struct AddView: View {
     @Environment(\.dismiss) var dismiss
     
@@ -45,7 +40,7 @@ struct AddView: View {
                 Button("Сохранить") {
                     let item = ExpenseItem(
                         name: name,
-                        type: type.rawValue,
+                        type: type,
                         amount: amount
                     )
                     expenses.items.append(item)

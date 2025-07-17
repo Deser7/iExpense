@@ -7,9 +7,15 @@
 
 import Foundation
 
+// MARK: - ExpenseType
+enum ExpenseType: String, CaseIterable, Codable {
+    case business = "Бизнес"
+    case personal = "Личные"
+}
+
 struct ExpenseItem: Identifiable, Codable {
     var id = UUID()
-    let name: String
-    let type: String
+    var name: String
+    let type: ExpenseType
     let amount: Double
 }
