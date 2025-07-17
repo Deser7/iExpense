@@ -19,7 +19,7 @@ struct ContentView: View {
                     ExpensesListView(
                         title: ExpenseType.business.rawValue,
                         expenses: expenses.items.filter { $0.type == .business },
-                        onDelete: removeItems
+                        onDelete: { offset in removeItems(ofType: .business, at: offset) }
                     )
                 }
                 
@@ -28,7 +28,7 @@ struct ContentView: View {
                     ExpensesListView(
                         title: ExpenseType.personal.rawValue,
                         expenses: expenses.items.filter { $0.type == .personal},
-                        onDelete: removeItems
+                        onDelete: { offset in removeItems(ofType: .personal, at: offset)}
                     )
                 }
             }
@@ -43,8 +43,12 @@ struct ContentView: View {
         }
     }
     
-    func removeItems(at offsets: IndexSet) {
-        expenses.items.remove(atOffsets: offsets)
+    func removeItems(ofType type: ExpenseType ,at offsets: IndexSet) {
+        let filteredItemsWithIndices = expenses.items.enumerated().filter { $0.element.type == type }
+        let indicesToDelete = offsets.map { filteredItemsWithIndices[$0].offset }
+        for index in indicesToDelete.sorted(by: >) {
+            expenses.items.remove(at: index)
+        }
     }
 }
 
