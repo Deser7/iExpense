@@ -9,19 +9,21 @@ import SwiftUI
 
 struct ExpensesListView: View {
     let title: String
-    let expenses: [ExpenseItem]
+    let expensesItems: [ExpenseItem]
     let onDelete: (IndexSet) -> Void
+    
+    let expenses = Expenses()
     
     var body: some View {
         List {
-            ForEach(expenses) { item in
+            ForEach(expensesItems) { item in
                 HStack {
                     VStack(alignment: .leading) {
                         Text(item.name)
                             .font(.headline)
                     }
                     Spacer()
-                    Text(item.amount, format: .currency(code: "USD"))
+                    Text(item.amount, format: .currency(code: expenses.currencyCode))
                         .foregroundStyle(setExpensesStyle(item.amount))
                 }
             }
@@ -42,9 +44,17 @@ struct ExpensesListView: View {
 #Preview {
     ExpensesListView(
         title: "",
-        expenses: [
-            ExpenseItem(name: ExpenseType.business.rawValue, type: .business, amount: 100),
-            ExpenseItem(name: ExpenseType.personal.rawValue, type: .personal, amount: 200)
+        expensesItems: [
+            ExpenseItem(
+                name: ExpenseType.business.rawValue,
+                type: .business,
+                amount: 100
+            ),
+            ExpenseItem(
+                name: ExpenseType.personal.rawValue,
+                type: .personal,
+                amount: 200
+            )
         ],
         onDelete: { _ in }
     )

@@ -18,7 +18,7 @@ struct ExpensesView: View {
                 Tab(ExpenseType.business.rawValue, systemImage: "briefcase.fill") {
                     ExpensesListView(
                         title: ExpenseType.business.rawValue,
-                        expenses: expenses.items.filter { $0.type == .business },
+                        expensesItems: expenses.items.filter { $0.type == .business },
                         onDelete: { offset in removeItems(ofType: .business, at: offset) }
                     )
                 }
@@ -27,7 +27,7 @@ struct ExpensesView: View {
                 Tab(ExpenseType.personal.rawValue, systemImage: "person.fill") {
                     ExpensesListView(
                         title: ExpenseType.personal.rawValue,
-                        expenses: expenses.items.filter { $0.type == .personal},
+                        expensesItems: expenses.items.filter { $0.type == .personal},
                         onDelete: { offset in removeItems(ofType: .personal, at: offset)}
                     )
                 }
@@ -38,7 +38,7 @@ struct ExpensesView: View {
                 }
             }
             .sheet(isPresented: $showingAddExpense) {
-                AddView(expenses: expenses)
+                AddView()
             }
         }
     }

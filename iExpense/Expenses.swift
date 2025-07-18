@@ -10,7 +10,8 @@ import Foundation
 
 @Observable
 final class Expenses {
-    let currencyCode = Locale.current.currency?.identifier ?? "USD"
+    
+    let currencyCode = Locale.current.currency?.identifier ?? "RUB"
     
     var items: [ExpenseItem] = [] {
         didSet {
