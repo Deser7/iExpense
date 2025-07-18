@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct ExpensesView: View {
     @State private var expenses = Expenses()
     
     @State private var showingAddExpense = false
@@ -53,5 +53,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    ExpensesView()
 }
