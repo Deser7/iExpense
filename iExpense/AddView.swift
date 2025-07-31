@@ -13,6 +13,7 @@ struct AddView: View {
     @State private var name = ""
     @State private var type: ExpenseType = .personal
     @State private var amount = 0.0
+    @State private var title = "Новый расход"
     
     @Binding var expenses: Expenses
     
@@ -21,7 +22,7 @@ struct AddView: View {
     var body: some View {
         NavigationStack {
             Form {
-                TextField("Название", text: $name)
+                TextField("Название", text: $title)
                 
                 Picker("Тип", selection: $type) {
                     ForEach(types, id: \.self) { type in
@@ -35,7 +36,8 @@ struct AddView: View {
                 )
                     .keyboardType(.decimalPad)
             }
-            .navigationTitle("Новый расход")
+            .navigationTitle($title)
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button("Назад") {
