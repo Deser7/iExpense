@@ -14,7 +14,7 @@ struct AddView: View {
     @State private var type: ExpenseType = .personal
     @State private var amount = 0.0
     
-    let expenses = Expenses()
+    @Binding var expenses: Expenses
     
     let types = ExpenseType.allCases
     
@@ -52,5 +52,5 @@ struct AddView: View {
 }
 
 #Preview {
-    AddView()
+    AddView(expenses: .constant(Expenses()))
 }

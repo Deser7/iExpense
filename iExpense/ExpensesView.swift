@@ -9,7 +9,6 @@ import SwiftUI
 
 struct ExpensesView: View {
     @State private var expenses = Expenses()
-    
     @State private var showingAddExpense = false
     
     var body: some View {
@@ -18,17 +17,24 @@ struct ExpensesView: View {
                 Tab(ExpenseType.business.rawValue, systemImage: "briefcase.fill") {
                     ExpensesListView(
                         title: ExpenseType.business.rawValue,
-                        expensesItems: expenses.items.filter { $0.type == .business },
-                        onDelete: { offset in removeItems(ofType: .business, at: offset) }
+                        expensesItems: expenses.items.filter {
+                            $0.type == .business
+                        },
+                        onDelete: {
+                            offset in removeItems(ofType: .business, at: offset)
+                        }
                     )
                 }
-                
                 
                 Tab(ExpenseType.personal.rawValue, systemImage: "person.fill") {
                     ExpensesListView(
                         title: ExpenseType.personal.rawValue,
-                        expensesItems: expenses.items.filter { $0.type == .personal},
-                        onDelete: { offset in removeItems(ofType: .personal, at: offset)}
+                        expensesItems: expenses.items.filter {
+                            $0.type == .personal
+                        },
+                        onDelete: {
+                            offset in removeItems(ofType: .personal, at: offset)
+                        }
                     )
                 }
             }
@@ -38,14 +44,18 @@ struct ExpensesView: View {
                 }
             }
             .sheet(isPresented: $showingAddExpense) {
-                AddView()
+                AddView(expenses: $expenses)
             }
         }
     }
     
     func removeItems(ofType type: ExpenseType ,at offsets: IndexSet) {
-        let filteredItemsWithIndices = expenses.items.enumerated().filter { $0.element.type == type }
-        let indicesToDelete = offsets.map { filteredItemsWithIndices[$0].offset }
+        let filteredItemsWithIndices = expenses.items.enumerated().filter {
+            $0.element.type == type
+        }
+        let indicesToDelete = offsets.map {
+            filteredItemsWithIndices[$0].offset
+        }
         for index in indicesToDelete.sorted(by: >) {
             expenses.items.remove(at: index)
         }
