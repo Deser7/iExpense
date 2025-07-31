@@ -17,14 +17,16 @@ struct ExpensesListView: View {
     var body: some View {
         List {
             ForEach(expensesItems) { item in
-                HStack {
-                    VStack(alignment: .leading) {
-                        Text(item.name)
-                            .font(.headline)
+                NavigationLink(destination: ExpenseDetailView(expense: item)) {
+                    HStack {
+                        VStack(alignment: .leading) {
+                            Text(item.name)
+                                .font(.headline)
+                        }
+                        Spacer()
+                        Text(item.amount, format: .currency(code: expenses.currencyCode))
+                            .foregroundStyle(setExpensesStyle(item.amount))
                     }
-                    Spacer()
-                    Text(item.amount, format: .currency(code: expenses.currencyCode))
-                        .foregroundStyle(setExpensesStyle(item.amount))
                 }
             }
             .onDelete(perform: onDelete)

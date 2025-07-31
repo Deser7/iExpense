@@ -43,7 +43,7 @@ struct ExpensesView: View {
                     showingAddExpense = true
                 }
             }
-            .sheet(isPresented: $showingAddExpense) {
+            .fullScreenCover(isPresented: $showingAddExpense) {
                 AddView(expenses: $expenses)
             }
         }

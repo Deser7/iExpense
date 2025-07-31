@@ -37,14 +37,22 @@ struct AddView: View {
             }
             .navigationTitle("Новый расход")
             .toolbar {
-                Button("Сохранить") {
-                    let item = ExpenseItem(
-                        name: name,
-                        type: type,
-                        amount: amount
-                    )
-                    expenses.items.append(item)
-                    dismiss()
+                ToolbarItem(placement: .topBarLeading) {
+                    Button("Назад") {
+                        dismiss()
+                    }
+                }
+                
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Сохранить") {
+                        let item = ExpenseItem(
+                            name: name,
+                            type: type,
+                            amount: amount
+                        )
+                        expenses.items.append(item)
+                        dismiss()
+                    }
                 }
             }
         }
