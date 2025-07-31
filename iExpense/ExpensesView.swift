@@ -14,28 +14,18 @@ struct ExpensesView: View {
     var body: some View {
         NavigationStack {
             TabView {
-                Tab(ExpenseType.business.rawValue, systemImage: "briefcase.fill") {
-                    ExpensesListView(
-                        title: ExpenseType.business.rawValue,
-                        expensesItems: expenses.items.filter {
-                            $0.type == .business
-                        },
-                        onDelete: {
-                            offset in removeItems(ofType: .business, at: offset)
-                        }
-                    )
-                }
-                
-                Tab(ExpenseType.personal.rawValue, systemImage: "person.fill") {
-                    ExpensesListView(
-                        title: ExpenseType.personal.rawValue,
-                        expensesItems: expenses.items.filter {
-                            $0.type == .personal
-                        },
-                        onDelete: {
-                            offset in removeItems(ofType: .personal, at: offset)
-                        }
-                    )
+                ForEach(ExpenseType.allCases, id: \.self) { expenseType in
+                    Tab(expenseType.rawValue, systemImage: expenseType.iconName) {
+                        ExpensesListView(
+                            title: expenseType.rawValue,
+                            expensesItems: expenses.items.filter {
+                                $0.type == expenseType
+                            },
+                            onDelete: {
+                                offset in removeItems(ofType: expenseType, at: offset)
+                            }
+                        )
+                    }
                 }
             }
             .toolbar {
